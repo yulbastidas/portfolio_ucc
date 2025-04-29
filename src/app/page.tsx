@@ -55,7 +55,7 @@ export default function AboutMe() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ newMessage }), 
+          body: JSON.stringify({ newMessage }),
         });
 
         if (!response.ok) {
@@ -63,13 +63,19 @@ export default function AboutMe() {
           console.error("Error de la API de Gemini:", errorData);
           setChatHistory((prevHistory) => [...prevHistory, { role: "model", parts: [{ text: "Error al obtener respuesta." }] }]);
         } else {
-          const { response: assistantResponse } = await response.json(); 
+          const { response: assistantResponse } = await response.json();
           const modelMessage: ChatMessage = { role: "model", parts: [{ text: assistantResponse }] };
           setChatHistory((prevHistory) => [...prevHistory, modelMessage]);
         }
-      } catch (error: any) {
-        console.error("Error al enviar mensaje a la API:", error);
-        setChatHistory((prevHistory) => [...prevHistory, { role: "model", parts: [{ text: "No se pudo conectar con el servidor." }] }]);
+      } catch (error: unknown) { 
+        let errorMessage = "No se pudo conectar con el servidor.";
+        if (error instanceof Error) {
+          errorMessage = `Error al enviar mensaje a la API: ${error.message}`;
+          console.error("Error al enviar mensaje a la API:", error.message);
+        } else {
+          console.error("Error desconocido al enviar mensaje a la API:", error);
+        }
+        setChatHistory((prevHistory) => [...prevHistory, { role: "model", parts: [{ text: errorMessage }] }]);
       } finally {
         setIsLoading(false);
       }
