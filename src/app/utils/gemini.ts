@@ -1,10 +1,7 @@
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-
-const MODEL_NAME = "gemini-1.5-pro"; 
+const MODEL_NAME = "gemini-1.5-pro";
 const API_KEY = process.env.GEMINI_API_KEY || "";
-
 
 const genAI = new GoogleGenerativeAI(API_KEY);
 
@@ -19,7 +16,7 @@ export async function sendMessage(newMessage: string): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-    const yulyInfo = `Ahorita mi nombre completo es Julie Tatiana Bastidas Chilama, tengo 19 años, nací en la ciudad de Pasto en el departamento de Nariño, y mis padres son Nelson Osvaldo Bastidas y Amanda Chilamá. Actualmente estoy cursando quinto semestre de ingeniería de software en línea en la Universidad Cooperativa de Colombia. Realicé el colegio en Libertad, todo mi bachiller y mi primaria han sido en este colegio. Desde los 12 años estoy en patinaje en el club Ases del Patín, me apasiona el patinaje. Estoy desde los 17 años en el gimnasio y como en bicicleta, y actualmente estoy practicando los 3 deportes: patinaje, bicicleta y gimnasio, siendo el gimnasio como manera profesional.`;
+    const yulyInfo = `Ahorita mi nombre completo es Yuly Tatiana Bastidas Chilama, tengo 19 años, nací en la ciudad de Pasto en el departamento de Nariño, y mis padres son Nelson Osvaldo Bastidas y Amanda Chilamá. Actualmente estoy cursando quinto semestre de ingeniería de software en línea en la Universidad Cooperativa de Colombia. Realicé el colegio en Libertad, todo mi bachiller y mi primaria han sido en este colegio. Desde los 12 años estoy en patinaje en el club Ases del Patín, me apasiona el patinaje. Estoy desde los 17 años en el gimnasio y como en bicicleta, y actualmente estoy practicando los 3 deportes: patinaje, bicicleta y gimnasio, siendo el gimnasio como manera profesional. Actualmente tengo pareja , el nombre de mi novio es Andres Ordoñez y tiene 21 años, y llevamos juntos 4 años `;
 
     const prompt = `Háblame sobre Yuly Bastidas. Aquí hay algunos detalles sobre ella: ${yulyInfo}. El usuario ha preguntado: "${newMessage}"`;
 
@@ -34,11 +31,16 @@ export async function sendMessage(newMessage: string): Promise<string> {
 
     console.log("Respuesta completa de Gemini:", result);
 
-    
     return result.response.text();
 
-  } catch (error: any) {
-    console.error("Error al enviar mensaje a Gemini:", error);
-    return `Lo siento, no pude procesar tu mensaje debido a un error: ${error.message}`;
+  } catch (error: unknown) {
+    let errorMessage = "Ocurrió un error inesperado.";
+    if (error instanceof Error) {
+      errorMessage = `Lo siento, no pude procesar tu mensaje debido a un error: ${error.message}`;
+      console.error("Error al enviar mensaje a Gemini:", error.message);
+    } else {
+      console.error("Error desconocido al enviar mensaje a Gemini:", error);
+    }
+    return errorMessage;
   }
 }
