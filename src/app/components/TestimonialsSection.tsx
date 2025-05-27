@@ -12,27 +12,27 @@ import 'swiper/css/pagination';
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: 'Camila Rodríguez',
-    role: 'Compañera de clase',
+    name: 'Sebastian Rojas',
+    role: 'Compañero de clase',
     content:
-      'Trabajar con Yuly siempre es una experiencia enriquecedora. Tiene una gran capacidad para resolver problemas de forma lógica y creativa, y se nota su pasión por la tecnología. Además, su actitud positiva y su disposición para ayudar hacen que cualquier proyecto en equipo fluya con facilidad.',
-    imageUrl: '',
+      'Trabajar con Yuly siempre es una experiencia agradable, es una persona responsable y comprometida con lo que realiza, se destaca por ser una persona responsable y dedica con los trabajos , realizando una buena entrega',
+    imageUrl: 'testimonion1.jpg',
   },
   {
     id: 2,
-    name: 'Juan David Torres',
+    name: 'Camila Zambrano',
     role: 'Integrante de equipo en proyectos académicos',
     content:
       'Yuly es una persona muy dedicada y organizada. En los proyectos que compartimos, siempre se destacó por su liderazgo, su habilidad para aprender nuevas tecnologías rápidamente y por mantenernos motivados como equipo. Es una estudiante ejemplar y una futura ingeniera con mucho potencial.',
-    imageUrl: '',
+    imageUrl: 'testimonial3.jpg',
   },
   {
     id: 3,
-    name: 'Ana María Gómez',
-    role: 'Compañera de trabajo',
+    name: 'Andres Duarte',
+    role: 'profesor',
     content:
-      'Es un placer trabajar con Yuly. Siempre tiene un enfoque proactivo, y es capaz de tomar decisiones rápidamente cuando se enfrenta a desafíos. Su habilidad para comunicarse de manera clara y efectiva la convierte en un miembro clave en cualquier equipo de trabajo.',
-    imageUrl: '',
+      'Yuly tiene la habilidad de trabajar en equipo, destacando su liderazgo y la capacidad de poder desarrollar problemas , llevando un buen trabajo en equipo',
+    imageUrl: 'testimonial2.jpg',
   },
 ];
 
@@ -65,20 +65,20 @@ const TestimonialsSection: React.FC = () => {
     <motion.section
       id="testimonials"
       className="py-16 px-6 sm:px-12 transition-colors duration-300 relative"
-      style={{ backgroundColor: 'hsl(300, 43%, 95%)' }} // Fondo aplicado aquí
+      style={{ backgroundColor: 'hsl(300, 43%, 95%)' }}
       ref={sectionRef}
       initial={{ opacity: 0, y: 50 }}
       animate={inViewport ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.8, ease: 'easeInOut' }}
     >
-      <div className="max-w-7xl mx-auto">
+      <header className="max-w-7xl mx-auto">
         <h2
           className="text-3xl sm:text-4xl font-bold text-center mb-8"
-          style={{ color: 'var(--bg-primary-darkest)' }} // Título en morado oscuro para contraste
+          style={{ color: 'var(--bg-primary-darkest)' }}
         >
           TESTIMONIOS
         </h2>
-        <div className="rounded-lg py-8 px-4 sm:px-8">
+        <main className="rounded-lg py-8 px-4 sm:px-8">
           <Swiper
             modules={[Pagination]}
             spaceBetween={20}
@@ -112,12 +112,11 @@ const TestimonialsSection: React.FC = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="swiper-pagination-testimonials mt-6 flex justify-center"></div>
-        </div>
-      </div>
+          <nav className="swiper-pagination-testimonials mt-6 flex justify-center"></nav>
+        </main>
+      </header>
       <style jsx>{`
         .swiper-pagination-testimonials {
-          /* Estilos para centrar los puntos */
         }
 
         .custom-bullet {

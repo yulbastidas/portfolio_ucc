@@ -16,9 +16,29 @@ export async function sendMessage(newMessage: string): Promise<string> {
   try {
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-    const yulyInfo = `Ahorita mi nombre completo es Yuly Tatiana Bastidas Chilama, tengo 19 años, nací en la ciudad de Pasto en el departamento de Nariño, y mis padres son Nelson Osvaldo Bastidas y Amanda Chilamá. Actualmente estoy cursando quinto semestre de ingeniería de software en línea en la Universidad Cooperativa de Colombia. Realicé el colegio en Libertad, todo mi bachiller y mi primaria han sido en este colegio. Desde los 12 años estoy en patinaje en el club Ases del Patín, me apasiona el patinaje. Estoy desde los 17 años en el gimnasio y como en bicicleta, y actualmente estoy practicando los 3 deportes: patinaje, bicicleta y gimnasio, siendo el gimnasio como manera profesional. Actualmente tengo pareja , el nombre de mi novio es Andres Ordoñez y tiene 21 años, y llevamos juntos 4 años `;
+    const yulyInfo = `Mi nombre completo es Yuly Tatiana Bastidas Chilama, tengo 19 años. Nací en la ciudad de Pasto, Nariño. Mis padres son Nelson Osvaldo Bastidas y Amanda Chilamá. Actualmente curso quinto semestre de Ingeniería de Software en línea en la Universidad Cooperativa de Colombia. Estudié mi bachiller y primaria en el colegio Libertad.
+Desde los 12 años practico patinaje en el club Ases del Patín. Me apasiona el patinaje.
+Desde los 17 años voy al gimnasio y practico ciclismo. Actualmente, entreno los tres deportes (patinaje, ciclismo y gimnasio), siendo el gimnasio de manera más profesional.
+Tengo pareja, mi novio se llama Andrés Ordóñez, tiene 21 años y llevamos 4 años juntos. Me destaco  por el manejo de base de datos como mongo bd, mysql, posgret, y en tecnologias manejando lenguajes como python , java, me desenvuelvo mejor como fronted.
+ademas me gusta el manejo de lo de la nube, , me interesaria formarme en cloud computing , todo lo que tenga que ver con azure, aws , servicios en la nube.
+para mi es un reto puesto que la tecnolgia avanza mucho y estoy comprometida a dar lo mejor de mi para ser una gran ingeniera. 
+respecto a  patianaje he obtenido tiempos de  en la pista de 200mts, un tiempo de 19sg la mas bajita de 18, y en ruta  pista de 400mts un tiempo de 34sg, y en gym en pesas levanto 80kg en sentadilla,
+en hiptrust un peso de 200kg, en sentadilla hacka un peso de 160kg y en brazo es mi punto mas debil unicamente 10kg.Alguna de  Las aventuras y lo que he hecho con mi novio 
+es ir a la cocha, a las lajas, viajar a la finca de mis abuelos, salir a lugares bonitos, salir hacer un picnic, salir a dar vueltas en la moto
+, estar todo un dia juntos, anecdotas bonitas desde el colegio, como graduarnos juntos, nuestro primer beso fue en la salida a comer helado, el me apoya mucho en mi carrera
+y siempre me dice que soy la mejor y sere la mejor ingeniera `; 
 
-    const prompt = `Háblame sobre Yuly Bastidas. Aquí hay algunos detalles sobre ella: ${yulyInfo}. El usuario ha preguntado: "${newMessage}"`;
+    
+    const prompt = `Actúa como un asistente personal que proporciona información sobre Yuly Bastidas.
+    Responde a la pregunta del usuario de forma directa, concisa y usando únicamente la información proporcionada a continuación sobre Yuly.
+    Si la pregunta no se puede responder con la información dada, indícalo claramente.
+    Evita inventar detalles o extender la respuesta más allá de lo necesario.
+
+    Información sobre Yuly: ${yulyInfo}
+
+    Pregunta del usuario: "${newMessage}"
+
+    Respuesta concisa:`; 
 
     const result = await model.generateContent({
       contents: [

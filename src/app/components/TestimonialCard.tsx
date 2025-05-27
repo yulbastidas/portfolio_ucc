@@ -9,12 +9,12 @@ interface TestimonialCardProps {
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, className }) => {
   return (
-    <div
+    <article
       className={`rounded-lg shadow-md p-6 w-full sm:w-80 ${className}`}
-      style={{ backgroundColor: 'var(--bg-primary-lightest)', color: 'var(--bg-primary-darkest)' }} // Fondo morado más claro
+      style={{ backgroundColor: 'var(--bg-primary-lightest)', color: 'var(--bg-primary-darkest)' }}
     >
-      <div className="flex items-center space-x-4">
-        <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
+      <header className="flex items-center space-x-4">
+        <figure className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
           {testimonial.imageUrl ? (
             <img
               src={testimonial.imageUrl}
@@ -24,14 +24,14 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, classNam
           ) : (
             <User size={24} className="text-gray-600" />
           )}
-        </div>
-        <div>
+        </figure>
+        <cite>
           <h4 className="font-semibold">{testimonial.name}</h4>
           <p className="text-sm">{testimonial.role}</p>
-        </div>
-      </div>
+        </cite>
+      </header>
       <p className="mt-4">{testimonial.content}</p>
-    </div>
+    </article>
   );
 };
 

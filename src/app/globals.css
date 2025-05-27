@@ -48,7 +48,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  scroll-behavior: smooth; /* Añadir desplazamiento suave */
+  scroll-behavior: smooth; 
 }
 
 @keyframes spin-slow {
@@ -64,17 +64,17 @@ body {
   animation: spin-slow 8s linear infinite;
 }
 
-/* Ocultar las barras de desplazamiento */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE 10+ */
+  -ms-overflow-style: none; 
   scrollbar-width: none; /* Firefox */
 }
 
-/* Agregar una animación o transición suave para las barras de desplazamiento */
+
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -89,7 +89,7 @@ body {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-/* Estilo para los puntos indicadores de scroll */
+/*  scroll */
 .scroll-indicator {
   display: flex;
   justify-content: center;
@@ -99,36 +99,36 @@ body {
 .scroll-indicator span {
   width: 10px;
   height: 10px;
-  background-color: rgba(0, 0, 0, 0.3); /* Color sutil para los puntos */
+  background-color: rgba(0, 0, 0, 0.3); 
   border-radius: 50%;
   margin: 0 5px;
   transition: background-color 0.3s ease;
 }
 
 .scroll-indicator span.active {
-  background-color: rgba(0, 0, 0, 0.7); /* Puntos más visibles cuando están activos */
+  background-color: rgba(0, 0, 0, 0.7); 
 }
 
-/* Estilo para el scroll horizontal con testimonios */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 }
 
-/* Estilo para el contenedor de testimonios */
+
 .overflow-x-auto {
-  overflow-x: auto; /* Permite el scroll horizontal */
+  overflow-x: auto; 
 }
 
 .scroll-smooth {
-  scroll-behavior: smooth; /* Desplazamiento suave */
+  scroll-behavior: smooth; 
 }
 
-/* Agrega el padding-top para las secciones */
+
 #about, #projects, #testimonials, #hobbies, #contact {
-  padding-top: 100px; /* Ajusta este valor según la altura de tu navbar */
+  padding-top: 100px; 
 }

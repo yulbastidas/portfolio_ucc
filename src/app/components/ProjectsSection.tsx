@@ -17,42 +17,26 @@ const projectsData: ProjectWithGithub[] = [
   {
     id: 1,
     title: 'PROYECTO 1',
-    imageUrl: '/images/proyecto1.png',
-    description: 'Descripción del proyecto 1',
-    url: 'https://proyecto1.com',
-    githubUrl: 'https://github.com/usuario/proyecto1',
+    imageUrl: '/proyecto1.jpg',
+    description: 'Esta plataforma es para que principalmente los niños aprendan jugando, viendo videos , de una manera mas entretenida , fortaleciendo su mente',
+    url: 'https://e-learning-wd6l.vercel.app/',
+    githubUrl: 'https://github.com/yulbastidas/e-learning.git',
   },
   {
     id: 2,
     title: 'PROYECTO 2',
-    imageUrl: '/images/proyecto2.png',
-    description: 'Descripción del proyecto 2',
-    url: 'https://proyecto2.com',
-    githubUrl: 'https://github.com/usuario/proyecto2',
+    imageUrl: '/proyecto2.jpg',
+    description: 'Es como una plataforma de pinterest donde puedes buscar tus intereses',
+    url: 'https://taller-lovable-klxr.vercel.app/',
+    githubUrl: 'https://github.com/yulbastidas/Taller_lovable.git',
   },
   {
     id: 3,
     title: 'PROYECTO 3',
-    imageUrl: '/images/proyecto3.png',
-    description: 'Descripción del proyecto 3',
-    url: 'https://proyecto3.com',
-    githubUrl: 'https://github.com/usuario/proyecto3',
-  },
-  {
-    id: 4,
-    title: 'PROYECTO 4',
-    imageUrl: '/images/proyecto4.png',
-    description: 'Descripción del proyecto 4',
-    url: 'https://proyecto4.com',
-    githubUrl: 'https://github.com/usuario/proyecto4',
-  },
-  {
-    id: 5,
-    title: 'PROYECTO 5',
-    imageUrl: '/images/proyecto5.png',
-    description: 'Descripción del proyecto 5',
-    url: 'https://proyecto5.com',
-    githubUrl: 'https://github.com/usuario/proyecto5',
+    imageUrl: '/proyecto3.jpg',
+    description: 'Esta es una card de un zapato',
+    url: 'https://examen-tailwind-6ce2.vercel.app/',
+    githubUrl: 'https://github.com/yulbastidas/examenTailwind.git',
   },
 ];
 
@@ -86,12 +70,12 @@ const ProjectsSection: React.FC = () => {
       id="projects"
       className="py-16 px-6 sm:px-12 transition-colors duration-300 relative"
       ref={sectionRef}
-      initial={{ opacity: 0, y: 50 }} // También podemos hacer que aparezca deslizando desde abajo
+      initial={{ opacity: 0, y: 50 }}
       animate={inViewport ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.8, ease: 'easeInOut' }} // Aumentamos la duración y cambiamos el easing
-      style={{ backgroundColor: 'hsl(300, 43%, 95%)' }} // Fondo aplicado aquí
+      transition={{ duration: 0.8, ease: 'easeInOut' }}
+      style={{ backgroundColor: 'hsl(300, 43%, 95%)' }}
     >
-      <div className="max-w-7xl mx-auto">
+      <header className="max-w-7xl mx-auto">
         <h2
           className="text-4xl sm:text-5xl font-bold text-center mb-12"
           style={{ color: 'var(--bg-primary-darkest)' }}
@@ -126,7 +110,7 @@ const ProjectsSection: React.FC = () => {
               spaceBetween: 30,
             },
             1280: {
-              slidesPerView: 4,
+              slidesPerView: 3,
               spaceBetween: 30,
             },
           }}
@@ -137,8 +121,8 @@ const ProjectsSection: React.FC = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="swiper-pagination-custom mt-8 flex justify-center"></div>
-      </div>
+        <nav className="swiper-pagination-custom mt-8 flex justify-center"></nav>
+      </header>
       <style jsx>{`
         .custom-project-card {
           border: 1px solid #e0e0e0;
@@ -149,10 +133,6 @@ const ProjectsSection: React.FC = () => {
 
         .custom-project-card:hover {
           box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-        }
-
-        .swiper-pagination-custom {
-          /* Estilos para centrar los puntos */
         }
 
         .custom-bullet {
