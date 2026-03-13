@@ -17,8 +17,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, githubUrl, className
         {project.imageUrl ? (
           <img
             src={project.imageUrl}
-            alt={project.title}
+            alt={`Imagen del proyecto ${project.title}`}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
         ) : (
           <span className="w-full h-full flex items-center justify-center">
@@ -26,11 +27,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, githubUrl, className
           </span>
         )}
       </figure>
-      <main className="p-4 flex-grow flex flex-col">
+
+      {/* Cambiamos MAIN por DIV */}
+      <div className="p-4 flex-grow flex flex-col">
         <h3 className="text-lg font-medium text-center">{project.title}</h3>
+
         {project.description && (
-          <p className="text-sm text-gray-600 mt-2 flex-grow">{project.description}</p>
+          <p className="text-sm text-gray-600 mt-2 flex-grow">
+            {project.description}
+          </p>
         )}
+
         <footer className="flex justify-end gap-2 mt-4">
           {project.url && (
             <a
@@ -43,6 +50,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, githubUrl, className
               <Link size={20} />
             </a>
           )}
+
           {githubUrl && (
             <a
               href={githubUrl}
@@ -55,7 +63,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, githubUrl, className
             </a>
           )}
         </footer>
-      </main>
+      </div>
     </article>
   );
 };
