@@ -27,14 +27,9 @@ export default function Home() {
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: 'model',
-      parts: [
-        {
-          text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?',
-        },
-      ],
+      parts: [{ text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?' }],
     },
   ]);
-
   const [newMessage, setNewMessage] = useState('');
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -89,11 +84,7 @@ export default function Home() {
     setChatHistory([
       {
         role: 'model',
-        parts: [
-          {
-            text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?',
-          },
-        ],
+        parts: [{ text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?' }],
       },
     ]);
     setNewMessage('');
@@ -128,18 +119,14 @@ export default function Home() {
     } catch {
       setChatHistory((prev) => [
         ...prev,
-        {
-          role: 'model',
-          parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }],
-        },
+        { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] },
       ]);
     }
   };
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [chatHistory]);
 
@@ -149,13 +136,11 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen">
-
       <Navbar openChat={openChat} onScrollToAbout={handleScrollToAbout} />
 
       {/* ABOUT */}
       <section id="about" ref={aboutSectionRef} className="w-full bg-pink-100 py-16 mt-20">
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-16">
-
           <motion.article
             className="md:w-1/2 flex flex-col items-start max-w-4xl"
             initial="hidden"
@@ -168,14 +153,12 @@ export default function Home() {
 
             <div className="text-lg text-gray-700 mb-8">
               <p>
-                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software
-                y me apasiona el desarrollo web, la programación y la creación de
-                soluciones tecnológicas innovadoras.
+                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software y me apasiona
+                el desarrollo web, la programación y la creación de soluciones tecnológicas innovadoras.
               </p>
             </div>
 
             <footer className="flex flex-wrap gap-4">
-
               <address className="bg-white p-4 rounded-lg shadow-md border not-italic">
                 <strong>Nombre:</strong> Yuly Bastidas
               </address>
@@ -187,7 +170,6 @@ export default function Home() {
               <address className="bg-white p-4 rounded-lg shadow-md border not-italic">
                 <strong>Ubicación:</strong> Pasto, Nariño
               </address>
-
             </footer>
           </motion.article>
 
@@ -206,11 +188,8 @@ export default function Home() {
               className="object-cover rounded-lg w-full"
             />
           </motion.figure>
-
         </div>
       </section>
-
-      {/* SECTIONS */}
 
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
@@ -236,17 +215,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CHATBOT */}
-
+      {/* CHAT */}
       {isChatOpen && (
         <aside className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
-
           <motion.article
             className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md flex flex-col max-h-[90vh]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
-
             <header className="flex justify-between mb-4 border-b pb-2">
               <h2 className="flex items-center gap-2 text-xl font-bold text-purple-700">
                 <FaRobot />
@@ -264,9 +240,7 @@ export default function Home() {
                 <p
                   key={index}
                   className={`mb-3 flex ${
-                    message.role === 'user'
-                      ? 'justify-end'
-                      : 'justify-start'
+                    message.role === 'user' ? 'justify-end' : 'justify-start'
                   }`}
                 >
                   <span
@@ -298,9 +272,7 @@ export default function Home() {
                 Enviar
               </button>
             </footer>
-
           </motion.article>
-
         </aside>
       )}
     </main>
