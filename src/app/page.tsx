@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Island_Moments } from 'next/font/google';
@@ -23,31 +24,32 @@ interface ChatMessage {
 }
 
 export default function Home() {
-  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     { role: 'model', parts: [{ text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?' }] },
   ]);
-  const [newMessage, setNewMessage] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [newMessage, setNewMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const aboutSectionRef = useRef<HTMLElement>(null);
 
   const textControls = useAnimation();
   const imageControls = useAnimation();
-  const aboutSectionRef = useRef<HTMLElement>(null);
 
   const textVariants = {
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
     hidden: { opacity: 0, x: -100 },
   };
 
   const imageVariants = {
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut' } },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
     hidden: { opacity: 0, x: 100 },
   };
 
   const isElementInViewport = (el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+    const viewportHeight = window.innerHeight;
     return rect.top <= viewportHeight * 0.8 && rect.bottom >= 0;
   };
 
@@ -74,9 +76,7 @@ export default function Home() {
     };
   }, [textControls, imageControls]);
 
-  const openChat = () => {
-    setIsChatOpen(true);
-  };
+  const openChat = () => setIsChatOpen(true);
 
   const closeChat = () => {
     setIsChatOpen(false);
@@ -87,35 +87,40 @@ export default function Home() {
   };
 
   const handleSendMessage = async () => {
-    if (newMessage.trim()) {
-      setIsLoading(true);
-      const userMessage: ChatMessage = { role: 'user', parts: [{ text: newMessage }] };
-      setChatHistory((prev) => [...prev, userMessage]);
-      setNewMessage('');
+    if (!newMessage.trim()) return;
 
-      try {
-        const response = await fetch('/api/gemini', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ newMessage }),
-        });
+    setIsLoading(true);
 
-        const { response: assistantResponse } = await response.json();
+    const userMessage: ChatMessage = {
+      role: 'user',
+      parts: [{ text: newMessage }],
+    };
 
-        const modelMessage: ChatMessage = {
-          role: 'model',
-          parts: [{ text: assistantResponse }],
-        };
+    setChatHistory((prev) => [...prev, userMessage]);
+    setNewMessage('');
 
-        setChatHistory((prev) => [...prev, modelMessage]);
-      } catch {
-        setChatHistory((prev) => [
-          ...prev,
-          { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] },
-        ]);
-      } finally {
-        setIsLoading(false);
-      }
+    try {
+      const response = await fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ newMessage }),
+      });
+
+      const data = await response.json();
+
+      const modelMessage: ChatMessage = {
+        role: 'model',
+        parts: [{ text: data.response }],
+      };
+
+      setChatHistory((prev) => [...prev, modelMessage]);
+    } catch {
+      setChatHistory((prev) => [
+        ...prev,
+        { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] },
+      ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -131,15 +136,13 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen">
+
       <Navbar openChat={openChat} onScrollToAbout={handleScrollToAbout} />
 
       {/* ABOUT */}
-      <section
-        id="about"
-        ref={aboutSectionRef}
-        className="w-full bg-pink-100 py-16 mt-20"
-      >
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-center gap-16">
+      <section id="about" ref={aboutSectionRef} className="w-full bg-pink-100 py-16 mt-20">
+
+        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-16">
 
           <motion.article
             className="md:w-1/2 flex flex-col items-start max-w-4xl"
@@ -151,16 +154,17 @@ export default function Home() {
               Acerca de Mí
             </h1>
 
-            <div className="w-full text-lg leading-relaxed mb-8 text-gray-700">
+            <div className="text-lg text-gray-700 mb-8">
               <p>
-                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software.
-                Me apasiona el desarrollo web, la lógica de programación y crear soluciones
-                que mejoren la experiencia de usuario.
+                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software y
+                me apasiona el desarrollo web, la programación y la creación de soluciones
+                tecnológicas innovadoras.
               </p>
             </div>
 
             <footer className="flex flex-wrap gap-4">
-              <address className="bg-white p-4 rounded-lg shadow-md border">
+
+              <address className="bg-white p-4 rounded-lg shadow-md border not-italic">
                 <strong>Nombre:</strong> Yuly Bastidas
               </address>
 
@@ -168,9 +172,10 @@ export default function Home() {
                 <strong>Edad:</strong> 19 años
               </span>
 
-              <address className="bg-white p-4 rounded-lg shadow-md border">
+              <address className="bg-white p-4 rounded-lg shadow-md border not-italic">
                 <strong>Ubicación:</strong> Pasto, Nariño
               </address>
+
             </footer>
           </motion.article>
 
@@ -193,44 +198,49 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECCIONES */}
-      <section className="w-full bg-gray-50 py-16">
+      {/* SECTIONS */}
+
+      <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <ProjectsSection />
         </div>
       </section>
 
-      <section className="w-full bg-white py-16">
+      <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-8">
           <TestimonialsSection />
         </div>
       </section>
 
-      <section className="w-full bg-gray-50 py-16">
+      <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <HobbiesSection />
         </div>
       </section>
 
-      <section className="w-full bg-white py-16">
+      <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-8">
           <ContactSection />
         </div>
       </section>
 
       {/* CHATBOT */}
+
       {isChatOpen && (
         <aside className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+
           <motion.article
             className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md flex flex-col max-h-[90vh]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >
 
-            <header className="flex justify-between items-center mb-4 border-b pb-2">
+            <header className="flex justify-between mb-4 border-b pb-2">
               <h2 className="flex items-center gap-2 text-xl font-bold text-purple-700">
-                <FaRobot /> Asistente Personal
+                <FaRobot />
+                Asistente Personal
               </h2>
+
               <button onClick={closeChat}>✖</button>
             </header>
 
@@ -239,16 +249,27 @@ export default function Home() {
               className="overflow-y-auto flex-grow mb-4 p-2 border rounded-md bg-gray-50"
             >
               {chatHistory.map((message, index) => (
-                <p key={index} className={`mb-3 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <span className={`rounded-lg p-3 text-sm max-w-[75%] ${
-                    message.role === 'user'
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-200 text-gray-800'
-                  }`}>
+                <p
+                  key={index}
+                  className={`mb-3 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <span
+                    className={`rounded-lg p-3 text-sm max-w-[75%] ${
+                      message.role === 'user'
+                        ? 'bg-purple-600 text-white'
+                        : 'bg-gray-200 text-gray-800'
+                    }`}
+                  >
                     {message.parts[0].text}
                   </span>
                 </p>
               ))}
+
+              {isLoading && (
+                <p className="flex justify-center mt-4">
+                  <span className="animate-spin h-6 w-6 border-b-2 border-purple-500 rounded-full"></span>
+                </p>
+              )}
             </section>
 
             <footer className="flex gap-2">
@@ -257,7 +278,9 @@ export default function Home() {
                 placeholder="Pregúntame algo..."
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
               />
+
               <button
                 className="bg-purple-600 text-white px-4 rounded"
                 onClick={handleSendMessage}
@@ -267,8 +290,10 @@ export default function Home() {
             </footer>
 
           </motion.article>
+
         </aside>
       )}
     </main>
   );
 }
+
