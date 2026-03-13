@@ -100,22 +100,19 @@ export default function Home() {
           body: JSON.stringify({ newMessage }),
         });
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.error('Error de la API de Gemini:', errorData);
-          setChatHistory((prev) => [...prev, { role: 'model', parts: [{ text: '⚠️ Ups, algo salió mal. Intenta de nuevo.' }] }]);
-        } else {
-          const { response: assistantResponse } = await response.json();
-          const modelMessage: ChatMessage = { role: 'model', parts: [{ text: assistantResponse }] };
-          setChatHistory((prev) => [...prev, modelMessage]);
-        }
-      } catch (error: unknown) {
-        const errorMessage =
-          error instanceof Error
-            ? `Error al enviar mensaje a la API: ${error.message}`
-            : 'No se pudo conectar con el servidor.';
-        console.error(errorMessage);
-        setChatHistory((prev) => [...prev, { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] }]);
+        const { response: assistantResponse } = await response.json();
+
+        const modelMessage: ChatMessage = {
+          role: 'model',
+          parts: [{ text: assistantResponse }],
+        };
+
+        setChatHistory((prev) => [...prev, modelMessage]);
+      } catch {
+        setChatHistory((prev) => [
+          ...prev,
+          { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] },
+        ]);
       } finally {
         setIsLoading(false);
       }
@@ -129,28 +126,21 @@ export default function Home() {
   }, [chatHistory]);
 
   const handleScrollToAbout = () => {
-    if (aboutSectionRef.current) {
-      aboutSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      textControls.start('visible');
-      imageControls.start('visible');
-    }
+    aboutSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <main className="flex flex-col min-h-screen">
       <Navbar openChat={openChat} onScrollToAbout={handleScrollToAbout} />
 
+      {/* ABOUT */}
       <section
         id="about"
         ref={aboutSectionRef}
         className="w-full bg-pink-100 py-16 mt-20"
       >
-        <div
-          className="
-            max-w-7xl mx-auto px-8
-            flex flex-col md:flex-row items-center justify-center gap-16
-          "
-        >
+        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-center gap-16">
+
           <motion.article
             className="md:w-1/2 flex flex-col items-start max-w-4xl"
             initial="hidden"
@@ -160,33 +150,32 @@ export default function Home() {
             <h1 className={`${islandMoments.className} text-4xl md:text-5xl font-bold text-gray-800 mb-6`}>
               Acerca de Mí
             </h1>
-            <section className="w-full text-lg leading-relaxed mb-8 text-gray-700">
+
+            <div className="w-full text-lg leading-relaxed mb-8 text-gray-700">
               <p>
-                Mi nombre es **Yuly Bastidas**, soy estudiante de **Ingeniería de Software**,
-                actualmente cursando el quinto semestre. Me apasiona el desarrollo de software, la lógica de la programación
-                y el diseño de soluciones innovadoras que mejoren la experiencia de los usuarios. Me interesa
-                especialmente el desarrollo web, la experiencia de usuario y el uso de tecnologías emergentes para crear
-                productos funcionales y atractivos. Me desenvuelvo principalmente en **Python**, **Java** y
-                bases de datos como **SQL**, **PostgreSQL** y **MongoDB**. Soy una persona
-                curiosa, comprometida y con muchas ganas de seguir creciendo en el mundo de la tecnología. La constancia,
-                la disciplina y el equilibrio son valores que aplico en cada paso de mi formación como futura ingeniera.
+                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software.
+                Me apasiona el desarrollo web, la lógica de programación y crear soluciones
+                que mejoren la experiencia de usuario.
               </p>
-            </section>
-            <footer className="flex flex-wrap justify-start gap-4 w-full">
-              <address className="bg-white p-4 rounded-lg shadow-md text-center text-gray-800 border border-gray-200 not-italic">
+            </div>
+
+            <footer className="flex flex-wrap gap-4">
+              <address className="bg-white p-4 rounded-lg shadow-md border">
                 <strong>Nombre:</strong> Yuly Bastidas
               </address>
-              <time className="bg-white p-4 rounded-lg shadow-md text-center text-gray-800 border border-gray-200">
+
+              <span className="bg-white p-4 rounded-lg shadow-md border">
                 <strong>Edad:</strong> 19 años
-              </time>
-              <address className="bg-white p-4 rounded-lg shadow-md text-center text-gray-800 border border-gray-200 not-italic">
+              </span>
+
+              <address className="bg-white p-4 rounded-lg shadow-md border">
                 <strong>Ubicación:</strong> Pasto, Nariño
               </address>
             </footer>
           </motion.article>
 
           <motion.figure
-            className="rounded-lg overflow-hidden shadow-xl md:w-1/2 flex justify-center items-center"
+            className="rounded-lg overflow-hidden shadow-xl md:w-1/2"
             initial="hidden"
             variants={imageVariants}
             animate={imageControls}
@@ -197,98 +186,86 @@ export default function Home() {
               width={500}
               height={625}
               priority
-              className="object-cover rounded-lg w-full h-auto max-h-[700px]"
+              className="object-cover rounded-lg w-full"
             />
           </motion.figure>
+
         </div>
       </section>
 
-      <section id="project" className="w-full bg-gray-50 py-16">
+      {/* SECCIONES */}
+      <section className="w-full bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <ProjectsSection />
         </div>
       </section>
 
-      <section id="testimonials" className="w-full bg-white py-16">
+      <section className="w-full bg-white py-16">
         <div className="max-w-7xl mx-auto px-8">
           <TestimonialsSection />
         </div>
       </section>
 
-      <section id="hobbies" className="w-full bg-gray-50 py-16">
+      <section className="w-full bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <HobbiesSection />
         </div>
       </section>
 
-      <section id="contact" className="w-full bg-white py-16">
+      <section className="w-full bg-white py-16">
         <div className="max-w-7xl mx-auto px-8">
           <ContactSection />
         </div>
       </section>
 
+      {/* CHATBOT */}
       {isChatOpen && (
-        <aside className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+        <aside className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
           <motion.article
-            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md flex flex-col h-auto max-h-[90vh]"
+            className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md flex flex-col max-h-[90vh]"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.2 }}
           >
+
             <header className="flex justify-between items-center mb-4 border-b pb-2">
               <h2 className="flex items-center gap-2 text-xl font-bold text-purple-700">
-                <FaRobot className="text-xl text-purple-600" />
-                Asistente Personal
+                <FaRobot /> Asistente Personal
               </h2>
-              <button onClick={closeChat} className="text-gray-500 hover:text-gray-700 focus:outline-none">
-                <svg className="w-6 h-6 fill-current" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+              <button onClick={closeChat}>✖</button>
             </header>
-            <section ref={chatContainerRef} className="overflow-y-auto flex-grow mb-4 p-2 border rounded-md bg-gray-50">
+
+            <section
+              ref={chatContainerRef}
+              className="overflow-y-auto flex-grow mb-4 p-2 border rounded-md bg-gray-50"
+            >
               {chatHistory.map((message, index) => (
                 <p key={index} className={`mb-3 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  <span
-                    className={`rounded-lg p-3 text-sm max-w-[75%] break-words ${
-                      message.role === 'user'
-                        ? 'bg-purple-600 text-white ml-auto'
-                        : 'bg-gray-200 text-gray-800 mr-auto'
-                    }`}
-                  >
+                  <span className={`rounded-lg p-3 text-sm max-w-[75%] ${
+                    message.role === 'user'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-200 text-gray-800'
+                  }`}>
                     {message.parts[0].text}
                   </span>
                 </p>
               ))}
-              {isLoading && (
-                <p className="flex justify-center mt-4">
-                  <span className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-500"></span>
-                </p>
-              )}
             </section>
-            <footer className="flex items-center">
+
+            <footer className="flex gap-2">
               <input
-                type="text"
-                className="flex-grow rounded-md border border-gray-300 p-2 mr-2 focus:ring-2 focus:ring-purple-500 focus:outline-none text-gray-800"
-                placeholder="Pregúntame algo sobre Yuly..."
+                className="flex-grow border p-2 rounded"
+                placeholder="Pregúntame algo..."
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                disabled={isLoading}
               />
               <button
-                className="px-4 py-2 rounded-md font-semibold bg-purple-500 text-white hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                className="bg-purple-600 text-white px-4 rounded"
                 onClick={handleSendMessage}
-                disabled={isLoading}
               >
                 Enviar
               </button>
             </footer>
+
           </motion.article>
         </aside>
       )}
