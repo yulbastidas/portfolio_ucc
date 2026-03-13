@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Island_Moments } from 'next/font/google';
@@ -26,10 +25,17 @@ interface ChatMessage {
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
-    { role: 'model', parts: [{ text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?' }] },
+    {
+      role: 'model',
+      parts: [
+        {
+          text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?',
+        },
+      ],
+    },
   ]);
+
   const [newMessage, setNewMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const aboutSectionRef = useRef<HTMLElement>(null);
@@ -81,15 +87,20 @@ export default function Home() {
   const closeChat = () => {
     setIsChatOpen(false);
     setChatHistory([
-      { role: 'model', parts: [{ text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?' }] },
+      {
+        role: 'model',
+        parts: [
+          {
+            text: '🤖 ¡Hola! Soy tu asistente personal. ¿En qué puedo ayudarte hoy sobre Yuly?',
+          },
+        ],
+      },
     ]);
     setNewMessage('');
   };
 
   const handleSendMessage = async () => {
     if (!newMessage.trim()) return;
-
-    setIsLoading(true);
 
     const userMessage: ChatMessage = {
       role: 'user',
@@ -117,16 +128,18 @@ export default function Home() {
     } catch {
       setChatHistory((prev) => [
         ...prev,
-        { role: 'model', parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }] },
+        {
+          role: 'model',
+          parts: [{ text: '⚠️ No se pudo conectar con el asistente.' }],
+        },
       ]);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
     }
   }, [chatHistory]);
 
@@ -141,7 +154,6 @@ export default function Home() {
 
       {/* ABOUT */}
       <section id="about" ref={aboutSectionRef} className="w-full bg-pink-100 py-16 mt-20">
-
         <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-16">
 
           <motion.article
@@ -156,9 +168,9 @@ export default function Home() {
 
             <div className="text-lg text-gray-700 mb-8">
               <p>
-                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software y
-                me apasiona el desarrollo web, la programación y la creación de soluciones
-                tecnológicas innovadoras.
+                Mi nombre es Yuly Bastidas, soy estudiante de Ingeniería de Software
+                y me apasiona el desarrollo web, la programación y la creación de
+                soluciones tecnológicas innovadoras.
               </p>
             </div>
 
@@ -251,7 +263,11 @@ export default function Home() {
               {chatHistory.map((message, index) => (
                 <p
                   key={index}
-                  className={`mb-3 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`mb-3 flex ${
+                    message.role === 'user'
+                      ? 'justify-end'
+                      : 'justify-start'
+                  }`}
                 >
                   <span
                     className={`rounded-lg p-3 text-sm max-w-[75%] ${
@@ -264,12 +280,6 @@ export default function Home() {
                   </span>
                 </p>
               ))}
-
-              {isLoading && (
-                <p className="flex justify-center mt-4">
-                  <span className="animate-spin h-6 w-6 border-b-2 border-purple-500 rounded-full"></span>
-                </p>
-              )}
             </section>
 
             <footer className="flex gap-2">
@@ -296,4 +306,3 @@ export default function Home() {
     </main>
   );
 }
-
