@@ -17,7 +17,6 @@ export default function ContactSection() {
       transition: {
         staggerChildren: 0.2,
         delayChildren: 0.3,
-        duration: 0.8,
       },
     },
   };
@@ -27,10 +26,7 @@ export default function ContactSection() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.7,
-        ease: [0.6, 0.05, 0.01, 0.9],
-      },
+      transition: { duration: 0.7 },
     },
   };
 
@@ -39,17 +35,11 @@ export default function ContactSection() {
     visible: {
       opacity: 1,
       scale: 1,
-      transition: {
-        duration: 0.6,
-        ease: 'easeOut',
-      },
+      transition: { duration: 0.6 },
     },
     hover: {
       scale: 1.05,
       boxShadow: '0px 10px 20px rgba(72, 0, 78, 0.2)',
-      transition: {
-        duration: 0.3,
-      },
     },
   };
 
@@ -58,23 +48,18 @@ export default function ContactSection() {
     visible: {
       opacity: 1,
       x: 0,
-      transition: {
-        duration: 0.5,
-      },
+      transition: { duration: 0.5 },
     },
     hover: {
-      scale: 1.05, 
+      scale: 1.05,
       color: '#6a006e',
-      x: 5, 
-      transition: {
-        duration: 0.2,
-      },
+      x: 5,
     },
   };
 
   return (
     <motion.section
-      id="contact" 
+      id="contact"
       ref={sectionRef}
       className="min-h-screen flex flex-col items-center justify-center py-16 px-6 sm:px-12 md:px-24 text-[#48004e]"
       style={{ backgroundColor: 'hsl(300, 43%, 95%)' }}
@@ -82,32 +67,34 @@ export default function ContactSection() {
       animate={isInView ? 'visible' : 'hidden'}
       variants={sectionVariants}
     >
-      <motion.h1
+      <motion.h2
         className="text-4xl sm:text-5xl font-extrabold mb-12 border-t border-b border-[#48004e] px-4 py-2"
         variants={titleVariants}
       >
         CONTACTO
-      </motion.h1>
+      </motion.h2>
 
-      <section className="flex flex-col md:flex-row items-center gap-12 max-w-4xl mx-auto w-full">
+      <div className="flex flex-col md:flex-row items-center gap-12 max-w-4xl mx-auto w-full">
+
         <motion.figure
-          className="relative rounded overflow-hidden shadow-lg md:order-1 w-full md:w-1/2 aspect-[3/4]" 
+          className="relative rounded overflow-hidden shadow-lg md:order-1 w-full md:w-1/2 aspect-[3/4]"
           variants={imageVariants}
           whileHover="hover"
         >
           <Image
             src="/yuly-foto-contac.jpg"
-            alt="Foto de contacto"
-            fill 
-            sizes="(max-width: 768px) 100vw, 50vw" 
+            alt="Foto de contacto de Yuly Bastidas"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover object-center"
           />
         </motion.figure>
 
         <address className="flex flex-col items-start gap-6 text-lg font-semibold md:order-2 w-full md:w-1/2 not-italic">
+
           <motion.a
-            href="tel:+573185953095" 
-            className="flex items-center gap-3 cursor-pointer hover:underline"
+            href="tel:+573185953095"
+            className="flex items-center gap-3 hover:underline"
             variants={contactItemVariants}
             whileHover="hover"
           >
@@ -116,10 +103,10 @@ export default function ContactSection() {
           </motion.a>
 
           <motion.a
-            href="https://github.com/yulbastidas" 
+            href="https://github.com/yulbastidas"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 cursor-pointer hover:underline"
+            className="flex items-center gap-3 hover:underline"
             variants={contactItemVariants}
             whileHover="hover"
           >
@@ -129,15 +116,17 @@ export default function ContactSection() {
 
           <motion.a
             href="mailto:bastidasyuly1081@gmail.com"
-            className="flex items-center gap-3 cursor-pointer hover:underline"
+            className="flex items-center gap-3 hover:underline"
             variants={contactItemVariants}
             whileHover="hover"
           >
             <FaEnvelope className="text-2xl" />
             <span>bastidasyuly1081@gmail.com</span>
           </motion.a>
+
         </address>
-      </section>
+
+      </div>
     </motion.section>
   );
 }

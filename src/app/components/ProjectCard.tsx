@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ImageIcon, Github, Link } from 'lucide-react';
 import { Project } from '../../app/types';
 
@@ -11,29 +12,31 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, githubUrl, className }) => {
   return (
     <article
-      className={`min-w-[250px] bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 relative flex flex-col ${className}`}
+      className={`min-w-[250px] bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col ${className}`}
     >
-      <figure className="aspect-square bg-gray-100 flex items-center justify-center">
+      <figure className="aspect-square bg-gray-100 flex items-center justify-center relative">
         {project.imageUrl ? (
-          <img
+          <Image
             src={project.imageUrl}
             alt={`Imagen del proyecto ${project.title}`}
-            className="w-full h-full object-cover"
-            loading="lazy"
+            fill
+            className="object-cover"
+            sizes="(max-width:768px) 100vw, 300px"
           />
         ) : (
-          <span className="w-full h-full flex items-center justify-center">
+          <div className="w-full h-full flex items-center justify-center">
             <ImageIcon size={64} className="text-gray-400" />
-          </span>
+          </div>
         )}
       </figure>
 
-      {/* Cambiamos MAIN por DIV */}
       <div className="p-4 flex-grow flex flex-col">
-        <h3 className="text-lg font-medium text-center">{project.title}</h3>
+        <h3 className="text-lg font-medium text-center">
+          {project.title}
+        </h3>
 
         {project.description && (
-          <p className="text-sm text-gray-600 mt-2 flex-grow">
+          <p className="text-sm text-gray-600 mt-2 flex-grow text-center">
             {project.description}
           </p>
         )}

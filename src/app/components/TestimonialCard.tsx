@@ -11,25 +11,30 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, classNam
   return (
     <article
       className={`rounded-lg shadow-md p-6 w-full sm:w-80 ${className}`}
-      style={{ backgroundColor: 'var(--bg-primary-lightest)', color: 'var(--bg-primary-darkest)' }}
+      style={{
+        backgroundColor: 'var(--bg-primary-lightest)',
+        color: 'var(--bg-primary-darkest)',
+      }}
     >
       <header className="flex items-center space-x-4">
         <figure className="w-12 h-12 rounded-full bg-white flex items-center justify-center overflow-hidden">
           {testimonial.imageUrl ? (
             <img
               src={testimonial.imageUrl}
-              alt={testimonial.name}
+              alt={`Foto de ${testimonial.name}`}
               className="w-full h-full object-cover rounded-full"
             />
           ) : (
             <User size={24} className="text-gray-600" />
           )}
         </figure>
-        <cite>
-          <h4 className="font-semibold">{testimonial.name}</h4>
-          <p className="text-sm">{testimonial.role}</p>
-        </cite>
+
+        <div>
+          <h3 className="font-semibold">{testimonial.name}</h3>
+          <cite className="text-sm not-italic">{testimonial.role}</cite>
+        </div>
       </header>
+
       <p className="mt-4">{testimonial.content}</p>
     </article>
   );
