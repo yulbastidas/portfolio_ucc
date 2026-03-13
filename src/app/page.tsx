@@ -203,7 +203,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projects" className="w-full bg-gray-50 py-16">
+      <section id="project" className="w-full bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-8">
           <ProjectsSection />
         </div>
